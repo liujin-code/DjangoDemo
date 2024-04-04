@@ -5,6 +5,7 @@ from django.urls import reverse, resolve
 from boards.form import NewTopicForm
 from boards.models import Board, Topic, Post
 from boards.views import home, board_topic, new_topic
+from django.urls import resolve
 
 
 # Create your tests here.
@@ -131,3 +132,13 @@ class newTopicTests(TestCase):
         form = response.context.get('form')
         self.assertEquals(response.status_code, 200)
         self.assertTrue(form.errors)
+
+
+from boards import views
+
+
+class BoardTopicsTests(TestCase):
+
+    def test_board_topics_url_resolves_board_topics_view(self):
+        view = resolve('/boards/1/')
+        self.assertEquals(view.func.view_class, views.TopicListView)
